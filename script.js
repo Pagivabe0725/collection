@@ -23,6 +23,8 @@ Array.from(collectionCreatorSection.getElementsByTagName("input")).forEach(
   }
 );
 
+const main = document.getElementById("own-main")
+
 /**
  * This function checks the display property of the collection creator section.
  * @returns {boolean} `true` if the collection creator section is visible, oherwise `false`
@@ -107,7 +109,7 @@ function getInvalidInputFieldsOfCollectionCreatorSection() {
 
 function emphasisInvalidInputFields(inputs) {
   inputs.forEach((elemet) => {
-    elementDesigner(elemet,"form-control is-invalid bg-danger-subtle")
+    elementDesigner(elemet, "form-control is-invalid bg-danger-subtle");
   });
 }
 
@@ -148,10 +150,70 @@ function getValueOfInputFieldsOfCollectionCreatorSection() {
   }
 }
 
+/**
+ * Adds each style from provided string to the given HTML element
+ * @param {Element} HTML_Element The target HTML element
+ * @param {String} style Concatenation of css class names (space-separated string)
+ */
 
-function elementDesigner(HTML_Element,style){
-    if(HTML_Element instanceof Element && typeof style ==='string' ){
-        HTML_Element.classList.add(...style.split(" "))
-    }
-    
+function elementDesigner(HTML_Element, style) {
+  if (HTML_Element instanceof Element && typeof style === "string") {
+    HTML_Element.classList.add(...style.split(" "));
+  }
 }
+
+///TODO
+function createCollectionContainer() {
+  let container = document.createElement("div");
+  elementDesigner(
+    container,
+    "container mt-2 border border-3 border-secondary rounded w-100"
+  );
+  return container;
+}
+
+
+///TODO
+function createTitleRowOfCollection(...args) {
+  const labels = ["Név:", "Témakör:", "Létrehozás:"];
+  let tRow = document.createElement("div");
+  elementDesigner(
+    tRow,
+    "row py-2 d-flex align-items-center border-bottom border-primary"
+  );
+  for(let i = 0; i<args.length;i++){
+    let containerSpan = document.createElement('span')
+    let contentSpan = document.createElement('span')
+    containerSpan.innerHTML=labels[i]+"&nbsp"
+    contentSpan.innerHTML=args[i]
+    elementDesigner(containerSpan,"col-4 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start")
+    elementDesigner(contentSpan,"text-primary")
+    containerSpan.appendChild(contentSpan)
+    tRow.appendChild(containerSpan)
+  }
+  return tRow
+}
+
+///TODO
+function createButtonsOfTitleRow(){
+    let containerDiv = document.createElement('div')
+    let button1 = document.createElement('button') 
+    let button2 = document.createElement('button')
+    elementDesigner(containerDiv,"col-12 col-md-3 d-flex justify-content-center justify-content-md-end gap-1") 
+    elementDesigner(button1,"btn btn-light")
+    elementDesigner(button2,"btn btn-light")
+    button1.innerHTML='Átnevez'
+    button2.innerHTML='Hozzáad'
+    containerDiv.appendChild(button1)
+    containerDiv.appendChild(button2)
+    return containerDiv
+}
+
+
+let d = createCollectionContainer()
+let r = createTitleRowOfCollection('alma','körte','szilva')
+let b = createButtonsOfTitleRow()
+r.appendChild(b)
+d.appendChild(r)
+
+main.appendChild(d)
