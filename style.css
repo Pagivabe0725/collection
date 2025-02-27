@@ -5,3 +5,12 @@ body {
   background-color: rgba(var(--bs-secondary-color-rgb), 1);
   color: var(--bs-light);
 }
+
+.own-collection-creator-input-field{
+    width: 30vw;
+    padding: 1vw;
+    background-color: rgba(var(--bs-light-rgb), 0.8);
+    color: black;
+    border: 1px solid var(--bs-primary-border-subtle);
+    border-radius: 10px;
+}
