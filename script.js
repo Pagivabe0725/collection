@@ -101,14 +101,13 @@ function getInvalidInputFieldsOfCollectionCreatorSection() {
 
 /**
  * emphasis the invalid input fields provided in parameter
- * @param {Array<Element>} inputs An array of HTML input elements 
+ * @param {Array<Element>} inputs An array of HTML input elements
+ * {@link elementDesigner}
  */
 
 function emphasisInvalidInputFields(inputs) {
   inputs.forEach((elemet) => {
-    elemet.classList.add("form-control");
-    elemet.classList.add("is-invalid");
-    elemet.classList.add("bg-danger-subtle");
+    elementDesigner(elemet,"form-control is-invalid bg-danger-subtle")
   });
 }
 
@@ -147,4 +146,12 @@ function getValueOfInputFieldsOfCollectionCreatorSection() {
     console.log("helytelen");
     emphasisInvalidInputFields(invalidInputs);
   }
+}
+
+
+function elementDesigner(HTML_Element,style){
+    if(HTML_Element instanceof Element && typeof style ==='string' ){
+        HTML_Element.classList.add(...style.split(" "))
+    }
+    
 }
