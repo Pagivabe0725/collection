@@ -1,3 +1,8 @@
+:root {
+  --alert-box-width: 40vw;
+  --alert-box-height: 50vh;
+}
+
 body {
   margin: 0;
   width: 100%;
@@ -6,17 +11,89 @@ body {
   color: var(--bs-light);
 }
 
-.own-collection-creator-input-field{
-    width: 30vw;
-    padding: 1vw;
-    background-color: rgba(var(--bs-light-rgb), 0.8);
-    color: black;
-    border: 1px solid var(--bs-primary-border-subtle);
-    border-radius: 10px;
-    display: block;
-    height: 70%;
+.own-collection-creator-input-field {
+  width: 30vw;
+  padding: 1vw;
+  background-color: rgba(var(--bs-light-rgb), 0.8);
+  color: black;
+  border: 1px solid var(--bs-primary-border-subtle);
+  border-radius: 10px;
+  display: block;
+  height: 70%;
 }
 
-.own-collection-creator-input-field::placeholder{
-    color: black;
+.own-collection-creator-input-field::placeholder {
+  color: black;
 }
+
+.alert {
+  bottom: 0;
+  left: 0;
+  margin: 0 25%;
+}
+
+.alert::selection {
+  background-color: var(--bs-green);
+  color: black;
+}
+
+#own-blur-box {
+  top: 0;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(5px);
+  z-index: 10;
+}
+
+#own-question-window-box {
+  top: 0;
+  width: var(--alert-box-width);
+  height: var(--alert-box-height);
+  display: grid;
+  grid-template-rows: 20% 1fr 20%;
+  background-color: var(--bs-primary-text-emphasis);
+  box-shadow: 1px 1px 3px var(--bs-black);
+  border-radius: 10px;
+  position: fixed;
+  z-index: 99;
+  margin: calc((100vh - var(--alert-box-height)) / 2)
+    calc((100vw - var(--alert-box-width)) / 2);
+}
+
+#own-question-window-title {
+  padding: 1vh 1vw;
+  display: flex;
+  align-items: center;
+  font-size: 3vw;
+  font-variant: small-caps;
+  border-bottom: 1px solid var(--bs-light);
+}
+
+#own-question-window-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--bs-light);
+  font-size: 2vw;
+}
+
+#own-question-window-action {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1vw;
+  gap: 1vw;
+}
+
+#own-question-window-action button {
+  min-width: 20%;
+}
+
+#own-question-window-content input[type="text"], select{
+    width: 80%;
+    border-radius: 10px;
+    
+}
+
