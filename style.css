@@ -13,4 +13,10 @@ body {
     color: black;
     border: 1px solid var(--bs-primary-border-subtle);
     border-radius: 10px;
+    display: block;
+    height: 70%;
+}
+
+.own-collection-creator-input-field::placeholder{
+    color: black;
 }
