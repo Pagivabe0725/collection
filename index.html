@@ -26,8 +26,10 @@
   <body>
     <div class="container">
       <header class="row align-items-center border-bottom py-2">
-        <div class="col-6 fs-4 fw-bold">Gyüjteményeim:</div>
-        <div class="col-6 d-flex justify-content-end">
+        <div class="col-6 d-none d-sm-flex fs-4 fw-bold">Gyüjteményeim:</div>
+        <div
+          class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end"
+        >
           <button class="btn btn-outline-primary">
             Új gyűjtemény létrehozása
           </button>
@@ -35,7 +37,7 @@
       </header>
     </div>
     <section
-      class="container d-flex align-items-center justify-content-center py-2 gap-1"
+      class="container d-flex align-items-center justify-content-center py-2 gap-1 flex-column flex-md-row"
     >
       <input
         type="text"
@@ -59,16 +61,16 @@
         <div
           class="row py-2 d-flex align-items-center border-bottom border-primary"
         >
-          <span class="col-3 d-flex align-items-center"
+          <span class="col-4 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start"
             >Név:&nbsp<span class="text-primary">Alma</span></span
           >
-          <span class="col-3 d-flex align-items-center"
+          <span class="col-4 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start"
             >Név:&nbsp<span class="text-primary">Alma</span></span
           >
-          <span class="col-3 d-flex align-items-center"
+          <span class="col-4 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start my-1"
             >Név:&nbsp<span class="text-primary">Alma</span></span
           >
-          <div class="col-3 d-flex justify-content-end gap-1">
+          <div class="col-12 col-md-3 d-flex justify-content-center justify-content-md-end gap-1">
             <button class="btn btn-light">Átnevez</button
             ><button class="btn btn-light">Hozzáad</button>
           </div>
@@ -100,11 +102,11 @@
       </div>
     </main>
 
+    <!--
     <div id="own-blur-box"></div>
     <div id="own-question-window-box">
       <div id="own-question-window-title">alma</div>
       <div id="own-question-window-content">
-        
         <select>
           <option value="alma">Alma</option>
         </select>
@@ -117,5 +119,6 @@
     <div class="alert alert-success d-block w-50 position-fixed mb-2">
       Sikeres hozzáadás
     </div>
+    -->
   </body>
 </html>
