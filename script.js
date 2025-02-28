@@ -30,6 +30,7 @@ const main = document.getElementById("own-main");
 let idStart = 0;
 let collectionArray = [];
 let alertDisplayPermission= true;
+let questionWindowPermission= true;
 const getNewID = function () {
   idStart++;
   return "r" + (idStart - 1);
@@ -440,6 +441,7 @@ function removeQuestionWindow() {
   let questionWindow = document.getElementById("own-question-window-box");
   document.body.removeChild(blurBox);
   document.body.removeChild(questionWindow);
+  questionWindowPermission=true;
 }
 ///Todo
 function createQuestionWindow(
@@ -449,6 +451,8 @@ function createQuestionWindow(
   buttonName,
   func
 ) {
+  if(questionWindowPermission){
+    questionWindowPermission=false;
   bluredBackground();
   let container = createQuestionWindowContainer();
   container.appendChild(createQuestionWindowTitle(title));
@@ -456,7 +460,7 @@ function createQuestionWindow(
     createQuestionWindowContent(inputType, collectionIndex)
   );
   container.appendChild(createQuestionWindowActionPart(buttonName, func));
-  document.body.appendChild(container);
+  document.body.appendChild(container);}
 }
 
 ///TODO
