@@ -67,7 +67,7 @@ export class Collection {
   }
 
   renameCollectionElement(id, newName) {
-    let index = this.getKeys.indexOf(id);
+    let index = this.getKeys().indexOf(id);
     let currentElement = this.Elements[index][id].HTML_Element;
     this.Elements[index][id].name = newName;
     currentElement.getElementsByTagName("div")[0].textContent =

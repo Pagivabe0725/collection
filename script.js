@@ -472,7 +472,8 @@ function renameCollectionElement(collectionIndex, id) {
     let name = document
       .getElementById("own-question-window-content")
       .getElementsByTagName("input")[0].value;
-    if (id && !this.collectionArray[collectionIndex].getKeys().includes(id)) {
+      console.log(!collectionArray[collectionIndex].getKeys().includes(id))
+    if (id && collectionArray[collectionIndex].getKeys().includes(id) && !collectionArray[collectionIndex].getNames().includes(name)) {
       collectionArray[collectionIndex].renameCollectionElement(id, name);
       console.log(collectionArray);
       removeQuestionWindow();
