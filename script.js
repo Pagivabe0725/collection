@@ -23,7 +23,7 @@ Array.from(collectionCreatorSection.getElementsByTagName("input")).forEach(
   }
 );
 
-const main = document.getElementById("own-main")
+const main = document.getElementById("own-main");
 
 /**
  * This function checks the display property of the collection creator section.
@@ -172,7 +172,6 @@ function createCollectionContainer() {
   return container;
 }
 
-
 ///TODO
 function createTitleRowOfCollection(...args) {
   const labels = ["Név:", "Témakör:", "Létrehozás:"];
@@ -181,39 +180,101 @@ function createTitleRowOfCollection(...args) {
     tRow,
     "row py-2 d-flex align-items-center border-bottom border-primary"
   );
-  for(let i = 0; i<args.length;i++){
-    let containerSpan = document.createElement('span')
-    let contentSpan = document.createElement('span')
-    containerSpan.innerHTML=labels[i]+"&nbsp"
-    contentSpan.innerHTML=args[i]
-    elementDesigner(containerSpan,"col-4 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start")
-    elementDesigner(contentSpan,"text-primary")
-    containerSpan.appendChild(contentSpan)
-    tRow.appendChild(containerSpan)
+  for (let i = 0; i < args.length; i++) {
+    let containerSpan = document.createElement("span");
+    let contentSpan = document.createElement("span");
+    containerSpan.innerHTML = labels[i] + "&nbsp";
+    contentSpan.innerHTML = args[i];
+    elementDesigner(
+      containerSpan,
+      "col-4 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start"
+    );
+    elementDesigner(contentSpan, "text-primary");
+    containerSpan.appendChild(contentSpan);
+    tRow.appendChild(containerSpan);
   }
-  return tRow
+  return tRow;
 }
 
 ///TODO
-function createButtonsOfTitleRow(){
-    let containerDiv = document.createElement('div')
-    let button1 = document.createElement('button') 
-    let button2 = document.createElement('button')
-    elementDesigner(containerDiv,"col-12 col-md-3 d-flex justify-content-center justify-content-md-end gap-1") 
-    elementDesigner(button1,"btn btn-light")
-    elementDesigner(button2,"btn btn-light")
-    button1.innerHTML='Átnevez'
-    button2.innerHTML='Hozzáad'
-    containerDiv.appendChild(button1)
-    containerDiv.appendChild(button2)
-    return containerDiv
+function createButtonsOfTitleRow() {
+  let containerDiv = document.createElement("div");
+  let button1 = document.createElement("button");
+  let button2 = document.createElement("button");
+  elementDesigner(
+    containerDiv,
+    "col-12 col-md-3 d-flex justify-content-center justify-content-md-end gap-1"
+  );
+  elementDesigner(button1, "btn btn-light");
+  elementDesigner(button2, "btn btn-light");
+  button1.innerHTML = "Átnevez";
+  button2.innerHTML = "Hozzáad";
+  containerDiv.appendChild(button1);
+  containerDiv.appendChild(button2);
+  return containerDiv;
+}
+
+///TODO
+function createNewCollection(name,theme,date){
+    let collection = createCollectionContainer();
+    let titleRow = createTitleRowOfCollection(name,theme,date);
+    let buttonDiv = createButtonsOfTitleRow();
+    titleRow.appendChild(buttonDiv);
+    collection.appendChild(titleRow);
+    return collection
+}
+
+//TODO
+function createSpecialSelectList() {
+    let i = document.createElement("i");
+    let img = document.createElement("img");
+    i.setAttribute("data-bs-toggle", "dropdown");
+    i.setAttribute("aria-expanded", "false");
+    i.setAttribute("role", "button");
+    elementDesigner(
+      i,
+      "bg-light d-flex align-items-center p-2 rounded own-icon dropdown-toggle"
+    );
+    img.src = "./icons/arrow-down.svg";
+    i.appendChild(img);
+    return i;
+  }
+
+  ///Todo
+function createSpecialSelectListElements() {
+    const options = ["Áthelyez", "Átnevez", "Töröl"];
+    let ul = document.createElement("ul");
+    elementDesigner(ul, "dropdown-menu");
+    for (let i = 0; i < options.length; i++) {
+      let li = document.createElement("li");
+      elementDesigner(li, "dropdown-item");
+      li.setAttribute("role", "button");
+      li.innerHTML = options[i];
+      ul.appendChild(li);
+    }
+    return ul;
+  }
+
+///Todo
+function createCollectionElementRow(name){
+
+    let eRow = document.createElement("div");
+  elementDesigner(eRow, "row py-1 border-bottom border-secondary");
+  let firstColumn = document.createElement("div");
+  let secondColumn = document.createElement("div");
+  firstColumn.innerHTML = name;
+  elementDesigner(firstColumn, "col-6 d-flex align-items-center");
+  elementDesigner(
+    secondColumn,
+    "col-6 d-flex align-items-center justify-content-end dropdown"
+  );
+  secondColumn.appendChild(createSpecialSelectList());
+  secondColumn.appendChild(createSpecialSelectListElements());
+  eRow.appendChild(firstColumn);
+  eRow.appendChild(secondColumn);
+  return eRow;
+
 }
 
 
-let d = createCollectionContainer()
-let r = createTitleRowOfCollection('alma','körte','szilva')
-let b = createButtonsOfTitleRow()
-r.appendChild(b)
-d.appendChild(r)
 
-main.appendChild(d)
