@@ -1,4 +1,4 @@
-
+import { Collection } from "./class/Collection.js";
 
 const collectionCreatorDisplayButton = document.getElementById(
   "own-collection-creator-display-button"
@@ -14,7 +14,7 @@ const collectionCreatorCreateButton = document.getElementById(
   "own-collection-creator-create-button"
 );
 collectionCreatorCreateButton.addEventListener("click", () => {
-  getValueOfInputFieldsOfCollectionCreatorSection();
+  createNewCollection();
 });
 
 Array.from(collectionCreatorSection.getElementsByTagName("input")).forEach(
@@ -166,6 +166,16 @@ function elementDesigner(HTML_Element, style) {
   }
 }
 
+function isUniqueName(name) {
+  for (let i = 0; i < collectionArray.length; i++) {
+    console.log(collectionArray[i].name.trim());
+    if (collectionArray[i].name.trim() === name.trim()) {
+      return false;
+    }
+  }
+  return true;
+}
+
 ///TODO
 function createCollectionContainer() {
   let container = document.createElement("div");
@@ -219,50 +229,56 @@ function createButtonsOfTitleRow() {
 }
 
 ///TODO
-function createNewCollection(name,theme,date){
+function createNewCollection() {
+  const inputs = getValueOfInputFieldsOfCollectionCreatorSection();
+  if (inputs && isUniqueName(inputs[0])) {
     let collection = createCollectionContainer();
-    let titleRow = createTitleRowOfCollection(name,theme,date);
+    let titleRow = createTitleRowOfCollection(inputs[0], inputs[1], inputs[2]);
     let buttonDiv = createButtonsOfTitleRow();
     titleRow.appendChild(buttonDiv);
     collection.appendChild(titleRow);
-    return collection
+    main.appendChild(collection);
+    collectionArray.push(
+      new Collection(inputs[0], inputs[1], inputs[2], collection)
+    );
+    console.log(collectionArray);
+  }
 }
 
 //TODO
 function createSpecialSelectList() {
-    let i = document.createElement("i");
-    let img = document.createElement("img");
-    i.setAttribute("data-bs-toggle", "dropdown");
-    i.setAttribute("aria-expanded", "false");
-    i.setAttribute("role", "button");
-    elementDesigner(
-      i,
-      "bg-light d-flex align-items-center p-2 rounded own-icon dropdown-toggle"
-    );
-    img.src = "./icons/arrow-down.svg";
-    i.appendChild(img);
-    return i;
-  }
-
-  ///Todo
-function createSpecialSelectListElements() {
-    const options = ["Áthelyez", "Átnevez", "Töröl"];
-    let ul = document.createElement("ul");
-    elementDesigner(ul, "dropdown-menu");
-    for (let i = 0; i < options.length; i++) {
-      let li = document.createElement("li");
-      elementDesigner(li, "dropdown-item");
-      li.setAttribute("role", "button");
-      li.innerHTML = options[i];
-      ul.appendChild(li);
-    }
-    return ul;
-  }
+  let i = document.createElement("i");
+  let img = document.createElement("img");
+  i.setAttribute("data-bs-toggle", "dropdown");
+  i.setAttribute("aria-expanded", "false");
+  i.setAttribute("role", "button");
+  elementDesigner(
+    i,
+    "bg-light d-flex align-items-center p-2 rounded own-icon dropdown-toggle"
+  );
+  img.src = "./icons/arrow-down.svg";
+  i.appendChild(img);
+  return i;
+}
 
 ///Todo
-function createCollectionElementRow(name){
+function createSpecialSelectListElements() {
+  const options = ["Áthelyez", "Átnevez", "Töröl"];
+  let ul = document.createElement("ul");
+  elementDesigner(ul, "dropdown-menu");
+  for (let i = 0; i < options.length; i++) {
+    let li = document.createElement("li");
+    elementDesigner(li, "dropdown-item");
+    li.setAttribute("role", "button");
+    li.innerHTML = options[i];
+    ul.appendChild(li);
+  }
+  return ul;
+}
 
-    let eRow = document.createElement("div");
+///Todo
+function createCollectionElementRow(name) {
+  let eRow = document.createElement("div");
   elementDesigner(eRow, "row py-1 border-bottom border-secondary");
   let firstColumn = document.createElement("div");
   let secondColumn = document.createElement("div");
@@ -277,8 +293,97 @@ function createCollectionElementRow(name){
   eRow.appendChild(firstColumn);
   eRow.appendChild(secondColumn);
   return eRow;
-
 }
 
+function createQuestionWindowTitle(title) {
+  let windowTitle = document.createElement("div");
+  windowTitle.innerHTML = title;
+  windowTitle.id = "own-question-window-title";
+  return windowTitle;
+}
 
+function createQuestionWindowContent(content, collectionIndex) {
+  let windowContantDiv = document.createElement("div");
+  windowContantDiv.id = "own-question-window-content";
+  let resultContent;
+  if (content === "input") {
+    resultContent = document.createElement("input");
+  } else if (content === "select") {
+    resultContent = createQuestionWindowSelectInput(collectionIndex);
+  } else {
+    return;
+  }
+  windowContantDiv.appendChild(resultContent);
+  return windowContantDiv;
+}
 
+function createQuestionWindowSelectInput(collectionIndex) {
+  let content = document.createElement("select");
+  for (let i = 0; i < collectionArray.length; i++) {
+    if (i === collectionIndex) {
+      continue;
+    } else {
+      option = document.createElement("option");
+      option.value = collectionArray[i].name;
+      option.innerHTML = collectionArray[i].name;
+      content.appendChild(option);
+    }
+  }
+  return content;
+}
+
+function createQuestionWindowActionPart(buttonName, func) {
+  console.log(func);
+  let actionContainer = document.createElement("div");
+  actionContainer.id = "own-question-window-action";
+  let backButton = document.createElement("button");
+  let actionButton = document.createElement("button");
+  elementDesigner(backButton, "btn btn-primary");
+  elementDesigner(actionButton, "btn btn-primary");
+  backButton.innerHTML = "Mégsem";
+  actionButton.innerHTML = buttonName;
+  backButton.addEventListener("click", () => {
+    removeQuestionWindow();
+  });
+  actionContainer.appendChild(actionButton);
+  actionContainer.appendChild(backButton);
+  return actionContainer;
+}
+function bluredBackground() {
+  let blur = document.createElement("div");
+  blur.id = "own-blur-box";
+  document.body.append(blur);
+}
+
+function createQuestionWindowContainer() {
+  let widowContainerDiv = document.createElement("div");
+  widowContainerDiv.id = "own-question-window-box";
+  return widowContainerDiv;
+}
+
+function removeQuestionWindow() {
+  let blurBox = document.getElementById("own-blur-box");
+  let questionWindow = document.getElementById("own-question-window-box");
+  document.body.removeChild(blurBox);
+  document.body.removeChild(questionWindow);
+}
+
+function createQuestionWindow(title, inputType, collectionIndex, buttonName) {
+  bluredBackground();
+  let container = createQuestionWindowContainer();
+  container.appendChild(createQuestionWindowTitle(title));
+  container.appendChild(
+    createQuestionWindowContent(inputType),
+    collectionIndex
+  );
+  container.appendChild(
+    createQuestionWindowActionPart(buttonName, "ez lesz majd a function")
+  );
+  document.body.appendChild(container);
+}
+
+collectionArray[
+  (new Collection("elso", "téma", "dátum", "html"),
+  new Collection("masodik", "téma", "dátum", "html"))
+];
+createQuestionWindow("TEsztelek", "select", 0, "valami");

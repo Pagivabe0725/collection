@@ -1,4 +1,4 @@
-class Collection {
+export  class Collection {
 
     /**
      * 
@@ -54,5 +54,11 @@ class Collection {
         this.html.removeChild(this.Elements[index][key[0]]);
         this.Elements.splice(index, 1);
       }
+  }
+
+
+  renameCollection(newName){
+    this.name=newName;
+    this.html.getElementsByTagName('span')[1].textContent=this.name;
   }
 }
