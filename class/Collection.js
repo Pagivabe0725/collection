@@ -56,9 +56,14 @@ export class Collection {
    * @param {number} index The index of the element to delete.
    */
   deleteElement(id) {
-    let index = this.getKeys(this.Elements).indexOf(id);
+    let index = this.getKeys().indexOf(id);
     this.html.removeChild(this.Elements[index][id].HTML_Element);
     this.Elements.splice(index, 1);
+  }
+
+  deleteToMove(id){
+    let index = this.getKeys().indexOf(id);
+    return this.Elements[index][id].HTML_Element;
   }
 
   renameCollection(newName) {

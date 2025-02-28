@@ -278,7 +278,7 @@ function createSpecialSelectList() {
 }
 
 ///Todo
-function createSpecialSelectListElements(collectionIndex, id) {
+function createSpecialSelectListElements( id) {
   const options = ["Áthelyez", "Átnevez", "Töröl"];
 
   let ul = document.createElement("ul");
@@ -288,27 +288,39 @@ function createSpecialSelectListElements(collectionIndex, id) {
     elementDesigner(li, "dropdown-item");
     li.setAttribute("role", "button");
     li.innerHTML = options[i];
-    if (i === 1) {
+    if (i === 0) {
+      li.addEventListener("click", () =>
+        createQuestionWindow(
+          "Elem Áthelyezése",
+          "select",
+          getCollectionByID(id),
+          "Áthelyezem",
+          () => {
+            moveElement(getCollectionByID(id), id);
+          }
+        )
+      );
+    } else if (i === 1) {
       li.addEventListener("click", () =>
         createQuestionWindow(
           "Elem Átnevezése",
           "input",
-          collectionIndex,
+          ()=>getCollectionByID(id),
           "Átnevezem",
           () => {
-            renameCollectionElement(collectionIndex, id);
+            renameCollectionElement(getCollectionByID(id), id);
           }
         )
       );
-    } else if (i === 2) {
+    } else {
       li.addEventListener("click", () =>
         createQuestionWindow(
           "Elem Törlése",
           "Biztosan törölni szeretnéd?",
-          collectionIndex,
+          getCollectionByID(id),
           "Törlöm",
           () => {
-            deleteCollectionElement(collectionIndex, id);
+            deleteCollectionElement(getCollectionByID(id), id);
           }
         )
       );
@@ -333,7 +345,7 @@ function createCollectionElementRow(name, collectionIndex) {
   );
   secondColumn.appendChild(createSpecialSelectList());
   secondColumn.appendChild(
-    createSpecialSelectListElements(collectionIndex, id)
+    createSpecialSelectListElements(id)
   );
   eRow.appendChild(firstColumn);
   eRow.appendChild(secondColumn);
@@ -379,7 +391,7 @@ function createQuestionWindowSelectInput(collectionIndex) {
       content.appendChild(option);
     }
   }
-  content.id="own-question-window-select"
+  content.id = "own-question-window-select";
   return content;
 }
 
@@ -472,8 +484,12 @@ function renameCollectionElement(collectionIndex, id) {
     let name = document
       .getElementById("own-question-window-content")
       .getElementsByTagName("input")[0].value;
-      console.log(!collectionArray[collectionIndex].getKeys().includes(id))
-    if (id && collectionArray[collectionIndex].getKeys().includes(id) && !collectionArray[collectionIndex].getNames().includes(name)) {
+    console.log(!collectionArray[collectionIndex].getKeys().includes(id));
+    if (
+      id &&
+      collectionArray[collectionIndex].getKeys().includes(id) &&
+      !collectionArray[collectionIndex].getNames().includes(name)
+    ) {
       collectionArray[collectionIndex].renameCollectionElement(id, name);
       console.log(collectionArray);
       removeQuestionWindow();
@@ -487,6 +503,40 @@ function deleteCollectionElement(collectionIndex, id) {
     console.log(collectionArray);
     removeQuestionWindow();
   }
+}
+
+function getCollectionByName(name) {
+  for (let i = 0; i < collectionArray.length; i++) {
+    if (name === collectionArray[i].name) {
+      return i;
+    }
+  }
+  return null;
+}
+
+function getCollectionByID(id) {
+  for (let i = 0; i < collectionArray.length; i++) {
+    if (collectionArray[i].getKeys().includes(id)) {
+      return i;
+    }
+  }
+}
+
+function moveElement(collectionIndex, id) {
+
+  if (collectionArray.length <= 1) {
+    removeQuestionWindow();
+  }
+  const place = document.getElementById("own-question-window-select").value;
+  const HTML_Element = collectionArray[collectionIndex].deleteToMove(id);
+  collectionArray[collectionIndex].deleteElement(id);
+  console.log(HTML_Element);
+  const name = HTML_Element.getElementsByTagName("div")[0].value;
+  collectionArray[getCollectionByName(place)].addToElements(
+    id,
+    name,
+    HTML_Element
+  );
 }
 
 
