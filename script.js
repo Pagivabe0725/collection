@@ -257,7 +257,15 @@ function createNewCollection() {
     collectionArray.push(
       new Collection(inputs[0], inputs[1], inputs[2], collection)
     );
+    collectionCreatorDisplayHandler()
     console.log(collectionArray);
+    showAlert("Sikeresen létrehoztat a gyűjteményt", false);
+  } else {
+    if (!inputs) {
+      showAlert("Hibásan tölötted ki a beviteli mezőket", true);
+    } else {
+      showAlert("Ez a név már foglalt", true);
+    }
   }
 }
 
@@ -278,7 +286,7 @@ function createSpecialSelectList() {
 }
 
 ///Todo
-function createSpecialSelectListElements( id) {
+function createSpecialSelectListElements(id) {
   const options = ["Áthelyez", "Átnevez", "Töröl"];
 
   let ul = document.createElement("ul");
@@ -305,7 +313,7 @@ function createSpecialSelectListElements( id) {
         createQuestionWindow(
           "Elem Átnevezése",
           "input",
-          ()=>getCollectionByID(id),
+          () => getCollectionByID(id),
           "Átnevezem",
           () => {
             renameCollectionElement(getCollectionByID(id), id);
@@ -344,9 +352,7 @@ function createCollectionElementRow(name, collectionIndex) {
     "col-6 d-flex align-items-center justify-content-end dropdown"
   );
   secondColumn.appendChild(createSpecialSelectList());
-  secondColumn.appendChild(
-    createSpecialSelectListElements(id)
-  );
+  secondColumn.appendChild(createSpecialSelectListElements(id));
   eRow.appendChild(firstColumn);
   eRow.appendChild(secondColumn);
   collectionArray[collectionIndex].addToElements(id, name, eRow);
@@ -462,8 +468,14 @@ function renameCollection(index) {
     if (name && isUniqueName(name)) {
       collectionArray[index].renameCollection(name);
       removeQuestionWindow();
+      showAlert("Sikeresen átnevezte a gyüjteményt", false);
+    } else {
+      if (!name) {
+        showAlert("Nem hagyhatod üresen a mezőt", true);
+      } else {
+        showAlert("Ez a név már foglalt", true);
+      }
     }
-  } else {
   }
 }
 
@@ -471,10 +483,19 @@ function addElementToCollection(collectionIndex) {
   if (collectionIndex < collectionArray.length) {
     let name = document
       .getElementById("own-question-window-content")
-      .getElementsByTagName("input")[0].value;
-    if (!collectionArray[collectionIndex].getNames().includes(name)) {
+      .getElementsByTagName("input")[0]
+      .value.trim();
+    if (name && !collectionArray[collectionIndex].getNames().includes(name)) {
       createCollectionElementRow(name, collectionIndex);
       removeQuestionWindow();
+
+      showAlert("Sikeresen hozzáadtad az új elemet ", false);
+    } else {
+      if (!name) {
+        showAlert("Nem hagyhatod üresen a mezőt", true);
+      } else {
+        showAlert("Ez a név már foglalt ", true);
+      }
     }
   }
 }
@@ -483,17 +504,28 @@ function renameCollectionElement(collectionIndex, id) {
   if (collectionIndex < collectionArray.length) {
     let name = document
       .getElementById("own-question-window-content")
-      .getElementsByTagName("input")[0].value;
+      .getElementsByTagName("input")[0]
+      .value.trim();
     console.log(!collectionArray[collectionIndex].getKeys().includes(id));
     if (
       id &&
+      name &&
       collectionArray[collectionIndex].getKeys().includes(id) &&
       !collectionArray[collectionIndex].getNames().includes(name)
     ) {
       collectionArray[collectionIndex].renameCollectionElement(id, name);
       console.log(collectionArray);
+      showAlert("Sikeresen Átnevezted az elemet", false);
       removeQuestionWindow();
+    } else {
+      if (!name) {
+        showAlert("Nem hagyhatod üresen a mezőt", true);
+      } else if (collectionArray[collectionIndex].getNames().includes(name)) {
+        showAlert("Ez a név már foglalt ", true);
+      }
     }
+  } else {
+    showAlert("Hiba lépett fel az elem átnevezése során", true);
   }
 }
 
@@ -502,6 +534,9 @@ function deleteCollectionElement(collectionIndex, id) {
     collectionArray[collectionIndex].deleteElement(id);
     console.log(collectionArray);
     removeQuestionWindow();
+    showAlert("Sikeresen törölted az elemet", false);
+  } else {
+    showAlert("Hiba lépet fel a törlés során", true);
   }
 }
 
@@ -523,9 +558,9 @@ function getCollectionByID(id) {
 }
 
 function moveElement(collectionIndex, id) {
-
   if (collectionArray.length <= 1) {
     removeQuestionWindow();
+    showAlert("Nincs hova áthelyezni az elemet", true);
   }
   const place = document.getElementById("own-question-window-select").value;
   const HTML_Element = collectionArray[collectionIndex].deleteToMove(id);
@@ -537,6 +572,22 @@ function moveElement(collectionIndex, id) {
     name,
     HTML_Element
   );
+  removeQuestionWindow();
+  showAlert("Sikeresen áthelyezted az elemet", false);
 }
 
+function createAlert(content, error) {
+  let alert = document.createElement("div");
+  alert.innerHTML = content;
+  elementDesigner(alert, "alert d-block w-50 position-fixed mb-2");
+  elementDesigner(alert, error ? "alert-danger" : "alert-success");
+  return alert;
+}
 
+function showAlert(content, error) {
+  const alert = createAlert(content, error);
+  document.body.appendChild(alert);
+  setTimeout(() => {
+    document.body.removeChild(alert);
+  }, 3000);
+}

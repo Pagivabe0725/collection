@@ -36,6 +36,8 @@ body {
   bottom: 0;
   left: 0;
   margin: 0 25%;
+  animation: alertAnimation 2s ease-out forwards;
+  z-index: 15;
 }
 
 .alert::selection {
@@ -115,13 +117,21 @@ select {
   }
 }
 
-@keyframes disappearance {
+@keyframes alertAnimation {
   0% {
+    opacity: 0;
+    scale: 0.8;
+  }
+  20% { 
+    opacity: 1;
     scale: 1;
-    opacity: 100;
+  }
+  80% { 
+    opacity: 1;
+    scale: 1;
   }
   100% {
-    scale: 0.1;
-    opacity: 0.4;
+    opacity: 0;
+    scale: 0.8;
   }
 }
