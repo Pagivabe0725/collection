@@ -27,7 +27,12 @@ Array.from(collectionCreatorSection.getElementsByTagName("input")).forEach(
 
 const main = document.getElementById("own-main");
 
+let idStart = 0;
 let collectionArray = [];
+const getNewID = function () {
+  idStart++;
+  return "r" + (idStart - 1);
+};
 
 /**
  * This function checks the display property of the collection creator section.
@@ -273,10 +278,9 @@ function createSpecialSelectList() {
 }
 
 ///Todo
-function createSpecialSelectListElements(collectionIndex) {
+function createSpecialSelectListElements(collectionIndex, id) {
   const options = ["Áthelyez", "Átnevez", "Töröl"];
-  const functs = [renameCollectionElement(),renameCollection(),renameCollection()]
-  const elementIndex = collectionArray[collectionIndex].Elements.length
+
   let ul = document.createElement("ul");
   elementDesigner(ul, "dropdown-menu");
   for (let i = 0; i < options.length; i++) {
@@ -284,7 +288,31 @@ function createSpecialSelectListElements(collectionIndex) {
     elementDesigner(li, "dropdown-item");
     li.setAttribute("role", "button");
     li.innerHTML = options[i];
-    li.addEventListener('click',()=>createQuestionWindow('Elemátnevezés','input',collectionIndex,'Átnevezem',()=>{renameCollectionElement(collectionIndex,elementIndex)}))
+    if (i === 1) {
+      li.addEventListener("click", () =>
+        createQuestionWindow(
+          "Elem Átnevezése",
+          "input",
+          collectionIndex,
+          "Átnevezem",
+          () => {
+            renameCollectionElement(collectionIndex, id);
+          }
+        )
+      );
+    } else if (i === 2) {
+      li.addEventListener("click", () =>
+        createQuestionWindow(
+          "Elem Törlése",
+          "Biztosan törölni szeretnéd?",
+          collectionIndex,
+          "Törlöm",
+          () => {
+            deleteCollectionElement(collectionIndex, id);
+          }
+        )
+      );
+    }
     ul.appendChild(li);
   }
   return ul;
@@ -293,6 +321,7 @@ function createSpecialSelectListElements(collectionIndex) {
 ///Todo
 function createCollectionElementRow(name, collectionIndex) {
   let eRow = document.createElement("div");
+  let id = getNewID();
   elementDesigner(eRow, "row py-1 border-bottom border-secondary");
   let firstColumn = document.createElement("div");
   let secondColumn = document.createElement("div");
@@ -303,10 +332,12 @@ function createCollectionElementRow(name, collectionIndex) {
     "col-6 d-flex align-items-center justify-content-end dropdown"
   );
   secondColumn.appendChild(createSpecialSelectList());
-  secondColumn.appendChild(createSpecialSelectListElements(collectionIndex));
+  secondColumn.appendChild(
+    createSpecialSelectListElements(collectionIndex, id)
+  );
   eRow.appendChild(firstColumn);
   eRow.appendChild(secondColumn);
-  collectionArray[collectionIndex].addToElements(name, eRow);
+  collectionArray[collectionIndex].addToElements(id, name, eRow);
 }
 
 ///Todo
@@ -327,7 +358,9 @@ function createQuestionWindowContent(content, collectionIndex) {
   } else if (content === "select") {
     resultContent = createQuestionWindowSelectInput(collectionIndex);
   } else {
-    return;
+    let p = document.createElement("p");
+    p.textContent = content;
+    resultContent = p;
   }
   windowContantDiv.appendChild(resultContent);
   return windowContantDiv;
@@ -335,11 +368,9 @@ function createQuestionWindowContent(content, collectionIndex) {
 
 ///Todo
 function createQuestionWindowSelectInput(collectionIndex) {
-  console.log(collectionArray);
   let content = document.createElement("select");
   for (let i = 0; i < collectionArray.length; i++) {
     if (i === collectionIndex) {
-      console.log(collectionArray[i].name + "     EZAZ   ");
       continue;
     } else {
       let option = document.createElement("option");
@@ -348,6 +379,7 @@ function createQuestionWindowSelectInput(collectionIndex) {
       content.appendChild(option);
     }
   }
+  content.id="own-question-window-select"
   return content;
 }
 
@@ -423,26 +455,37 @@ function renameCollection(index) {
   }
 }
 
-function addElementToCollection(index) {
-  if (index < collectionArray.length) {
+function addElementToCollection(collectionIndex) {
+  if (collectionIndex < collectionArray.length) {
     let name = document
       .getElementById("own-question-window-content")
       .getElementsByTagName("input")[0].value;
-    if (name && ![...collectionArray[index].getKeys()].includes(name)) {
-      createCollectionElementRow(name, index);
+    if (!collectionArray[collectionIndex].getNames().includes(name)) {
+      createCollectionElementRow(name, collectionIndex);
       removeQuestionWindow();
     }
   }
 }
 
-function renameCollectionElement(collectionIndex,elementIndex){
+function renameCollectionElement(collectionIndex, id) {
   if (collectionIndex < collectionArray.length) {
     let name = document
       .getElementById("own-question-window-content")
       .getElementsByTagName("input")[0].value;
-    if (name && ![...collectionArray[collectionIndex].getKeys(collectionArray[collectionIndex].Elements)].includes(name)) {
-      collectionArray[collectionIndex].renameCollectionElement (name,elementIndex)
+    if (id && !this.collectionArray[collectionIndex].getKeys().includes(id)) {
+      collectionArray[collectionIndex].renameCollectionElement(id, name);
+      console.log(collectionArray);
       removeQuestionWindow();
     }
   }
 }
+
+function deleteCollectionElement(collectionIndex, id) {
+  if (collectionIndex < collectionArray.length) {
+    collectionArray[collectionIndex].deleteElement(id);
+    console.log(collectionArray);
+    removeQuestionWindow();
+  }
+}
+
+
