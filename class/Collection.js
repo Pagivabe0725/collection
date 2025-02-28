@@ -37,7 +37,7 @@ export  class Collection {
  */
   addToElements(name,HTML_Element){
     if(!this.getKeys().includes(name.trim())){
-        this.HTML_Element.appendChild(HTML_Element)
+        this.html.appendChild(HTML_Element)
         this.Elements.push({[name]:HTML_Element})
     }
   }
