@@ -56,9 +56,15 @@ export  class Collection {
       }
   }
 
-
   renameCollection(newName){
     this.name=newName;
     this.html.getElementsByTagName('span')[1].textContent=this.name;
+  }
+
+  renameCollectionElement(newName,index){
+   let currentElement = Object.values(this.Elements[index])[0];
+   console.log(currentElement)
+   currentElement.getElementsByTagName('div')[0].textContent=newName;
+    this.Elements[index]={[newName]:currentElement}
   }
 }

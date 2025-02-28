@@ -229,7 +229,11 @@ function createButtonsOfTitleRow() {
     })
   );
   addButton.innerHTML = "Hozzáad";
-  addButton.addEventListener('click',()=>createQuestionWindow('Elem hozzáadása','input', index, 'Hozzáadom', ()=>{addElementToCollection(index)}))
+  addButton.addEventListener("click", () =>
+    createQuestionWindow("Elem hozzáadása", "input", index, "Hozzáadom", () => {
+      addElementToCollection(index);
+    })
+  );
   containerDiv.appendChild(renameButton);
   containerDiv.appendChild(addButton);
   return containerDiv;
@@ -271,6 +275,8 @@ function createSpecialSelectList() {
 ///Todo
 function createSpecialSelectListElements(collectionIndex) {
   const options = ["Áthelyez", "Átnevez", "Töröl"];
+  const functs = [renameCollectionElement(),renameCollection(),renameCollection()]
+  const elementIndex = collectionArray[collectionIndex].Elements.length
   let ul = document.createElement("ul");
   elementDesigner(ul, "dropdown-menu");
   for (let i = 0; i < options.length; i++) {
@@ -278,6 +284,7 @@ function createSpecialSelectListElements(collectionIndex) {
     elementDesigner(li, "dropdown-item");
     li.setAttribute("role", "button");
     li.innerHTML = options[i];
+    li.addEventListener('click',()=>createQuestionWindow('Elemátnevezés','input',collectionIndex,'Átnevezem',()=>{renameCollectionElement(collectionIndex,elementIndex)}))
     ul.appendChild(li);
   }
   return ul;
@@ -296,10 +303,10 @@ function createCollectionElementRow(name, collectionIndex) {
     "col-6 d-flex align-items-center justify-content-end dropdown"
   );
   secondColumn.appendChild(createSpecialSelectList());
-  secondColumn.appendChild(createSpecialSelectListElements());
+  secondColumn.appendChild(createSpecialSelectListElements(collectionIndex));
   eRow.appendChild(firstColumn);
   eRow.appendChild(secondColumn);
-  collectionArray[collectionIndex].addToElements(name,eRow)
+  collectionArray[collectionIndex].addToElements(name, eRow);
 }
 
 ///Todo
@@ -421,9 +428,21 @@ function addElementToCollection(index) {
     let name = document
       .getElementById("own-question-window-content")
       .getElementsByTagName("input")[0].value;
-      if (name && ![...collectionArray[index].getKeys()].includes(name)) {
-        createCollectionElementRow(name,index)
-        removeQuestionWindow();
-      }
+    if (name && ![...collectionArray[index].getKeys()].includes(name)) {
+      createCollectionElementRow(name, index);
+      removeQuestionWindow();
+    }
+  }
+}
+
+function renameCollectionElement(collectionIndex,elementIndex){
+  if (collectionIndex < collectionArray.length) {
+    let name = document
+      .getElementById("own-question-window-content")
+      .getElementsByTagName("input")[0].value;
+    if (name && ![...collectionArray[collectionIndex].getKeys(collectionArray[collectionIndex].Elements)].includes(name)) {
+      collectionArray[collectionIndex].renameCollectionElement (name,elementIndex)
+      removeQuestionWindow();
+    }
   }
 }
