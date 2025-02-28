@@ -19,7 +19,7 @@ collectionCreatorCreateButton.addEventListener("click", () => {
 
 Array.from(collectionCreatorSection.getElementsByTagName("input")).forEach(
   (element, index) => {
-    element.addEventListener("click", () => {
+    element.addEventListener("input", () => {
       removeemphasisOfInfalidInputFields(index);
     });
   }
@@ -29,6 +29,7 @@ const main = document.getElementById("own-main");
 
 let idStart = 0;
 let collectionArray = [];
+let alertDisplayPermission= true;
 const getNewID = function () {
   idStart++;
   return "r" + (idStart - 1);
@@ -257,7 +258,7 @@ function createNewCollection() {
     collectionArray.push(
       new Collection(inputs[0], inputs[1], inputs[2], collection)
     );
-    collectionCreatorDisplayHandler()
+    collectionCreatorDisplayHandler();
     console.log(collectionArray);
     showAlert("Sikeresen létrehoztat a gyűjteményt", false);
   } else {
@@ -585,9 +586,13 @@ function createAlert(content, error) {
 }
 
 function showAlert(content, error) {
+  if(alertDisplayPermission){
   const alert = createAlert(content, error);
   document.body.appendChild(alert);
+  alertDisplayPermission=false;
   setTimeout(() => {
     document.body.removeChild(alert);
-  }, 3000);
+    alertDisplayPermission=true
+  }, 2000);
+}
 }
