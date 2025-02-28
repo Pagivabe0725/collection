@@ -318,14 +318,16 @@ function createQuestionWindowContent(content, collectionIndex) {
 }
 
 function createQuestionWindowSelectInput(collectionIndex) {
+  console.log(collectionArray);
   let content = document.createElement("select");
   for (let i = 0; i < collectionArray.length; i++) {
     if (i === collectionIndex) {
+      console.log(collectionArray[i].name + "     EZAZ   ");
       continue;
     } else {
-      option = document.createElement("option");
+      let option = document.createElement("option");
       option.value = collectionArray[i].name;
-      option.innerHTML = collectionArray[i].name;
+      option.textContent = collectionArray[i].name;
       content.appendChild(option);
     }
   }
@@ -373,8 +375,7 @@ function createQuestionWindow(title, inputType, collectionIndex, buttonName) {
   let container = createQuestionWindowContainer();
   container.appendChild(createQuestionWindowTitle(title));
   container.appendChild(
-    createQuestionWindowContent(inputType),
-    collectionIndex
+    createQuestionWindowContent(inputType, collectionIndex)
   );
   container.appendChild(
     createQuestionWindowActionPart(buttonName, "ez lesz majd a function")
@@ -382,8 +383,8 @@ function createQuestionWindow(title, inputType, collectionIndex, buttonName) {
   document.body.appendChild(container);
 }
 
-collectionArray[
-  (new Collection("elso", "téma", "dátum", "html"),
-  new Collection("masodik", "téma", "dátum", "html"))
-];
+collectionArray.push(new Collection("elso", "téma", "dátum", "html"));
+collectionArray.push(new Collection("masodik", "téma", "dátum", "html"));
+
+console.log(collectionArray);
 createQuestionWindow("TEsztelek", "select", 0, "valami");
