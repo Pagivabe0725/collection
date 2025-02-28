@@ -1,3 +1,5 @@
+
+
 const collectionCreatorDisplayButton = document.getElementById(
   "own-collection-creator-display-button"
 );
@@ -24,6 +26,8 @@ Array.from(collectionCreatorSection.getElementsByTagName("input")).forEach(
 );
 
 const main = document.getElementById("own-main");
+
+let collectionArray = [];
 
 /**
  * This function checks the display property of the collection creator section.
