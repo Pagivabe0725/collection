@@ -212,19 +212,25 @@ function createTitleRowOfCollection(...args) {
 
 ///TODO
 function createButtonsOfTitleRow() {
+  let index = collectionArray.length;
   let containerDiv = document.createElement("div");
-  let button1 = document.createElement("button");
-  let button2 = document.createElement("button");
+  let renameButton = document.createElement("button");
+  let addButton = document.createElement("button");
   elementDesigner(
     containerDiv,
     "col-12 col-md-3 d-flex justify-content-center justify-content-md-end gap-1"
   );
-  elementDesigner(button1, "btn btn-light");
-  elementDesigner(button2, "btn btn-light");
-  button1.innerHTML = "Átnevez";
-  button2.innerHTML = "Hozzáad";
-  containerDiv.appendChild(button1);
-  containerDiv.appendChild(button2);
+  elementDesigner(renameButton, "btn btn-light");
+  elementDesigner(addButton, "btn btn-light");
+  renameButton.innerHTML = "Átnevez";
+  renameButton.addEventListener("click", () =>
+    createQuestionWindow("Átnevezés", "input", index, "Átnevezem", () => {
+      renameCollection(index);
+    })
+  );
+  addButton.innerHTML = "Hozzáad";
+  containerDiv.appendChild(renameButton);
+  containerDiv.appendChild(addButton);
   return containerDiv;
 }
 
@@ -295,6 +301,7 @@ function createCollectionElementRow(name) {
   return eRow;
 }
 
+///Todo
 function createQuestionWindowTitle(title) {
   let windowTitle = document.createElement("div");
   windowTitle.innerHTML = title;
@@ -302,6 +309,7 @@ function createQuestionWindowTitle(title) {
   return windowTitle;
 }
 
+///Todo
 function createQuestionWindowContent(content, collectionIndex) {
   let windowContantDiv = document.createElement("div");
   windowContantDiv.id = "own-question-window-content";
@@ -317,6 +325,7 @@ function createQuestionWindowContent(content, collectionIndex) {
   return windowContantDiv;
 }
 
+///Todo
 function createQuestionWindowSelectInput(collectionIndex) {
   console.log(collectionArray);
   let content = document.createElement("select");
@@ -334,8 +343,8 @@ function createQuestionWindowSelectInput(collectionIndex) {
   return content;
 }
 
-function createQuestionWindowActionPart(buttonName, func) {
-  console.log(func);
+///Todo
+function createQuestionWindowActionPart(buttonName, buttonFunction) {
   let actionContainer = document.createElement("div");
   actionContainer.id = "own-question-window-action";
   let backButton = document.createElement("button");
@@ -347,44 +356,63 @@ function createQuestionWindowActionPart(buttonName, func) {
   backButton.addEventListener("click", () => {
     removeQuestionWindow();
   });
+  actionButton.addEventListener("click", () => {
+    buttonFunction();
+  });
   actionContainer.appendChild(actionButton);
   actionContainer.appendChild(backButton);
   return actionContainer;
 }
+///Todo
 function bluredBackground() {
   let blur = document.createElement("div");
   blur.id = "own-blur-box";
   document.body.append(blur);
 }
-
+///Todo
 function createQuestionWindowContainer() {
   let widowContainerDiv = document.createElement("div");
   widowContainerDiv.id = "own-question-window-box";
   return widowContainerDiv;
 }
-
+///Todo
 function removeQuestionWindow() {
   let blurBox = document.getElementById("own-blur-box");
   let questionWindow = document.getElementById("own-question-window-box");
   document.body.removeChild(blurBox);
   document.body.removeChild(questionWindow);
 }
-
-function createQuestionWindow(title, inputType, collectionIndex, buttonName) {
+///Todo
+function createQuestionWindow(
+  title,
+  inputType,
+  collectionIndex,
+  buttonName,
+  func
+) {
   bluredBackground();
   let container = createQuestionWindowContainer();
   container.appendChild(createQuestionWindowTitle(title));
   container.appendChild(
     createQuestionWindowContent(inputType, collectionIndex)
   );
-  container.appendChild(
-    createQuestionWindowActionPart(buttonName, "ez lesz majd a function")
-  );
+  container.appendChild(createQuestionWindowActionPart(buttonName, func));
   document.body.appendChild(container);
 }
 
-collectionArray.push(new Collection("elso", "téma", "dátum", "html"));
-collectionArray.push(new Collection("masodik", "téma", "dátum", "html"));
 
-console.log(collectionArray);
-createQuestionWindow("TEsztelek", "select", 0, "valami");
+function renameCollection(index) {
+  if (index < collectionArray.length) {
+    let name = document
+      .getElementById("own-question-window-content")
+      .getElementsByTagName("input")[0].value;
+
+    if (name && isUniqueName(name)) {
+      collectionArray[index].renameCollection(name);
+      removeQuestionWindow();
+    }
+  } else {
+  }
+}
+
+
