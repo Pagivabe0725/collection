@@ -1,3 +1,9 @@
+/**
+ * @author Kovacs Patrik <kovpatrik0725@gmail.com>
+ */
+
+
+
 import { Collection } from "./class/Collection.js";
 
 /**
