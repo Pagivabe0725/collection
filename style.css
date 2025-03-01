@@ -122,16 +122,41 @@ select {
     opacity: 0;
     scale: 0.8;
   }
-  20% { 
+  20% {
     opacity: 1;
     scale: 1;
   }
-  80% { 
+  80% {
     opacity: 1;
     scale: 1;
   }
   100% {
     opacity: 0;
     scale: 0.8;
+  }
+}
+
+.own-collection-img {
+  max-width: 30%;
+  max-height: 30%;
+  object-fit: fill;
+  border-radius: 20px;
+}
+
+.own-collection-img:hover {
+  transform: scale(1.01);
+}
+
+@media (max-width: 576px) {
+  .own-collection-img {
+    max-width: 90%;
+    max-height: 90%;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .own-collection-img {
+    max-width: 70%;
+    max-height: 70%;
   }
 }

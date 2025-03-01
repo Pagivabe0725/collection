@@ -5,6 +5,7 @@ export class Collection {
    * @param {string} theme  the theme of Collection
    * @param {string} date  the creation date of Collection
    * @param {Element} html the HTML element of Collection container
+   * @param {string} path of collection image
    */
 
   constructor(name, theme, date, html) {
@@ -13,6 +14,7 @@ export class Collection {
     this.name = name;
     this.Elements = [];
     this.html = html;
+    this.src = "";
   }
 
   /**
@@ -28,14 +30,14 @@ export class Collection {
     return helperArray;
   }
 
-  getNames(){
-    let helperArray=[]
-    this.Elements.forEach(element=>{
-  [...Object.values(element)].forEach(names =>{
-    helperArray.push(names.name)
-  })
-    })
-    return helperArray
+  getNames() {
+    let helperArray = [];
+    this.Elements.forEach((element) => {
+      [...Object.values(element)].forEach((names) => {
+        helperArray.push(names.name);
+      });
+    });
+    return helperArray;
   }
 
   /**
@@ -44,7 +46,7 @@ export class Collection {
    * @param {Element} HTML_Element the HTML element of Collection container
    */
   addToElements(id, name, HTML_Element) {
-    console.log(this.getNames())
+    console.log(this.getNames());
     if (!this.getKeys().includes(id)) {
       this.html.appendChild(HTML_Element);
       this.Elements.push({ [id]: { HTML_Element: HTML_Element, name: name } });
@@ -61,7 +63,7 @@ export class Collection {
     this.Elements.splice(index, 1);
   }
 
-  deleteToMove(id){
+  deleteToMove(id) {
     let index = this.getKeys().indexOf(id);
     return this.Elements[index][id].HTML_Element;
   }
@@ -77,5 +79,20 @@ export class Collection {
     this.Elements[index][id].name = newName;
     currentElement.getElementsByTagName("div")[0].textContent =
       this.Elements[index][id].name;
+  }
+
+  setCollectionPicture(src, HTML_Element) {
+      this.src=src
+      console.log(HTML_Element)
+    if (HTML_Element) {
+      
+      this.html
+        .getElementsByTagName("div")[0]
+        .after(HTML_Element);
+    } else {
+      const img =this.html.getElementsByTagName("img")[0]
+      img.src=this.src;
+      img.title='Hivatkozás: '+this.src
+    }
   }
 }

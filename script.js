@@ -217,19 +217,23 @@ function createTitleRowOfCollection(...args) {
   return tRow;
 }
 
+
 ///TODO
 function createButtonsOfTitleRow() {
   let index = collectionArray.length;
   let containerDiv = document.createElement("div");
   let renameButton = document.createElement("button");
   let addButton = document.createElement("button");
+  let pictureButton = document.createElement("label");
   elementDesigner(
     containerDiv,
     "col-12 col-md-3 d-flex justify-content-center justify-content-md-end gap-1"
   );
   elementDesigner(renameButton, "btn btn-light");
   elementDesigner(addButton, "btn btn-light");
+  elementDesigner(pictureButton, "btn btn-light");
   renameButton.innerHTML = "Átnevez";
+  pictureButton.innerHTML='Kép'
   renameButton.addEventListener("click", () =>
     createQuestionWindow("Átnevezés", "input", index, "Átnevezem", () => {
       renameCollection(index);
@@ -241,9 +245,49 @@ function createButtonsOfTitleRow() {
       addElementToCollection(index);
     })
   );
+  pictureButton.addEventListener('click',()=>{
+    createQuestionWindow('Kép linkje','input',index,'Hozzáadom',()=>{setPicture(index)})
+  }
+  )
   containerDiv.appendChild(renameButton);
   containerDiv.appendChild(addButton);
+  containerDiv.appendChild(pictureButton)
   return containerDiv;
+}
+
+
+
+
+function pictureCreator(src){
+const containerDiv= document.createElement('div');
+elementDesigner(containerDiv,'d-flex row align-items-center justify-content-center border-bottom border-secondary py-2')
+const img = document.createElement('img');
+elementDesigner(img,'own-collection-img')
+img.src=src
+img.alt='Hiba a kép megadása során'  
+containerDiv.appendChild(img);
+return containerDiv
+
+}
+
+
+function setPicture(collectionIndex){
+
+  let src=document
+.getElementById("own-question-window-content")
+.getElementsByTagName("input")[0].value;
+console.log(src)
+  if(!collectionArray[collectionIndex].src){
+    collectionArray[collectionIndex].setCollectionPicture(src,pictureCreator(src))
+    removeQuestionWindow()
+    showAlert('A képet sikeresen beállítottad')
+  }else{
+    collectionArray[collectionIndex].setCollectionPicture(src,undefined)
+    removeQuestionWindow()
+    showAlert('A képet sikeresen módosítottad')
+  }
+  
+
 }
 
 ///TODO
@@ -600,3 +644,5 @@ function showAlert(content, error) {
   }, 2000);
 }
 }
+
+
