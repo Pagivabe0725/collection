@@ -1,3 +1,5 @@
+
+
 import { Collection } from "./class/Collection.js";
 
 const collectionCreatorDisplayButton = document.getElementById(
@@ -17,6 +19,7 @@ collectionCreatorCreateButton.addEventListener("click", () => {
   createNewCollection();
 });
 
+
 Array.from(collectionCreatorSection.getElementsByTagName("input")).forEach(
   (element, index) => {
     element.addEventListener("input", () => {
@@ -26,6 +29,7 @@ Array.from(collectionCreatorSection.getElementsByTagName("input")).forEach(
 );
 
 const main = document.getElementById("own-main");
+
 
 let idStart = 0;
 let collectionArray = [];
@@ -208,7 +212,7 @@ function createTitleRowOfCollection(...args) {
     contentSpan.innerHTML = args[i];
     elementDesigner(
       containerSpan,
-      "col-4 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start"
+      "col-4 col-lg-3 d-flex align-items-center justify-content-center justify-content-lg-start"
     );
     elementDesigner(contentSpan, "text-primary");
     containerSpan.appendChild(contentSpan);
@@ -227,7 +231,7 @@ function createButtonsOfTitleRow() {
   let pictureButton = document.createElement("label");
   elementDesigner(
     containerDiv,
-    "col-12 col-md-3 d-flex justify-content-center justify-content-md-end gap-1"
+    "col-12 col-lg-3 d-flex justify-content-center justify-content-lg-end gap-1"
   );
   elementDesigner(renameButton, "btn btn-light");
   elementDesigner(addButton, "btn btn-light");
