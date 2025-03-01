@@ -1,24 +1,48 @@
-
-
 import { Collection } from "./class/Collection.js";
 
+/**
+ *Contains the `HTML` element of collection creator display `<button>`
+ * @type {HTMLElement}
+ */
 const collectionCreatorDisplayButton = document.getElementById(
   "own-collection-creator-display-button"
 );
+/**
+ *Contains the `HTML` element of collection creator `section`
+ * @type {HTMLElement}
+ */
 const collectionCreatorSection = document.getElementById(
   "own-collection-creator"
 );
+
+/**
+ * Handles the `click` event on the collection creator display `<button>`
+ * {@link collectionCreatorDisplayHandler}
+ */
 collectionCreatorDisplayButton.addEventListener("click", () => {
   collectionCreatorDisplayHandler();
 });
 
+/**
+ *Contains the `HTML` element of collection creator create `<button>`
+ * @type {HTMLElement}
+ */
 const collectionCreatorCreateButton = document.getElementById(
   "own-collection-creator-create-button"
 );
+
+/**
+ * Handles the `click` event on the collection creator create `<button>`
+ * {@link createNewCollection}
+ */
 collectionCreatorCreateButton.addEventListener("click", () => {
   createNewCollection();
 });
 
+/**
+ * Selects all `<input>` element of collection creator secion and handles the `input` event on them
+ * {@link removeemphasisOfInfalidInputFields}
+ */
 
 Array.from(collectionCreatorSection.getElementsByTagName("input")).forEach(
   (element, index) => {
@@ -28,13 +52,44 @@ Array.from(collectionCreatorSection.getElementsByTagName("input")).forEach(
   }
 );
 
+/**
+ * Contains the `HTML` element of `<main>`
+ * @type {HTMLElement}
+ */
+
 const main = document.getElementById("own-main");
 
+/**
+ * A unique ID assigned to each elementRow.
+ * This variable increments each time a new elementRow is created.
+ * @type {number}
+ */
 
 let idStart = 0;
+
+/**
+ * Array of collection objects
+ * {@type {Collection[]}}
+ */
 let collectionArray = [];
-let alertDisplayPermission= true;
-let questionWindowPermission= true;
+
+/**
+ * It is `true` if the body do not contains an alert element,otherwise `false`
+ * @type {boolean}
+ */
+let alertDisplayPermission = true;
+
+/**
+ * It is `true` if the body do not contains a questionWindow element,otherwise `false`
+ * @type {boolean}
+ */
+
+let questionWindowPermission = true;
+
+/**
+ * this function is responible for returning a unique id and increments the idStart variable
+ * @returns {string} the generated uique id
+ */
 const getNewID = function () {
   idStart++;
   return "r" + (idStart - 1);
@@ -42,14 +97,14 @@ const getNewID = function () {
 
 /**
  * This function checks the display property of the collection creator section.
- * @returns {boolean} `true` if the collection creator section is visible, oherwise `false`
+ * @return {boolean} `true` if the collection creator section is visible, otherwise `false`
  */
 function isCollectionCreatorVisible() {
   return collectionCreatorSection.classList.contains("d-flex");
 }
 
 /**
- * Deletes the values of input fields if the collection creator section is invisible.
+ * Deletes the values of `<input>` fields if the collection creator section is invisible.
  * {@link isCollectionCreatorVisible}
  */
 function resetCollectionCreatorInputs() {
@@ -64,7 +119,7 @@ function resetCollectionCreatorInputs() {
 }
 
 /**
- * Changes the content of the collection creator button
+ * Changes the content of the collection creator `<button>`
  * Set it to `Új gyűjtemény létrehozása` if the collection creator section is invisible, otherwise `Mégsem`
  * {@link isCollectionCreatorVisible}
  */
@@ -99,9 +154,9 @@ function collectionCreatorDisplayHandler() {
 }
 
 /**
- * Returns an array of invalid HTML input elements.
- * If no invalid elements are found, returns an empty array.
- * @returns {Array<Element>} An array of invalid input elements, or an empty array if none are found.
+ * Returns an `array` of invalid `HTML` `<input>` elements.
+ * If no invalid elements are found, returns an empty `array`.
+ * @returns {HTMLElement[]} An `array` of invalid `<input>` elements, or an empty array if none are found.
  */
 
 function getInvalidInputFieldsOfCollectionCreatorSection() {
@@ -117,8 +172,8 @@ function getInvalidInputFieldsOfCollectionCreatorSection() {
 }
 
 /**
- * emphasis the invalid input fields provided in parameter
- * @param {Array<Element>} inputs An array of HTML input elements
+ * emphasis the invalid `<input>` fields provided in parameter
+ * @param {Array<Element>} inputs An `array` of `HTML` `<input>` elements
  * {@link elementDesigner}
  */
 
@@ -129,8 +184,8 @@ function emphasisInvalidInputFields(inputs) {
 }
 
 /**
- * Removes the emphasis from an invalid input field.
- * @param {Number} index The index of the current input element
+ * Removes the emphasis from an invalid `<input>` field.
+ * @param {Number} index The index of the current `<input>` element
  */
 
 function removeemphasisOfInfalidInputFields(index) {
@@ -143,8 +198,8 @@ function removeemphasisOfInfalidInputFields(index) {
 }
 
 /**
- * Returns an array of input values if they are valid
- * @returns {Array<string>} An array of valid input values
+ * Returns an `array` of `<input>` values if they are valid
+ * @returns {String[]} An `array` of valid `<input>` values
  */
 function getValueOfInputFieldsOfCollectionCreatorSection() {
   console.log("bentvan");
@@ -166,9 +221,9 @@ function getValueOfInputFieldsOfCollectionCreatorSection() {
 }
 
 /**
- * Adds each style from provided string to the given HTML element
- * @param {Element} HTML_Element The target HTML element
- * @param {String} style Concatenation of css class names (space-separated string)
+ * Adds each style from provided string to the given `HTML` element
+ * @param {Element} HTML_Element The target `HTML` element
+ * @param {String} style Concatenation of `css class` names (space-separated string)
  */
 
 function elementDesigner(HTML_Element, style) {
@@ -176,6 +231,12 @@ function elementDesigner(HTML_Element, style) {
     HTML_Element.classList.add(...style.split(" "));
   }
 }
+
+/**
+ * Checks if the name parameter is unique in the collectionArray list
+ * @param {string} name
+ * @returns {boolean} `true` if name is unique, otherwise `false`
+ */
 
 function isUniqueName(name) {
   for (let i = 0; i < collectionArray.length; i++) {
@@ -187,7 +248,11 @@ function isUniqueName(name) {
   return true;
 }
 
-///TODO
+/**
+ *Creates an `HTML` element that serves as the container for a collection.
+ * @returns  {HTMLElement} the created container element
+ * @ {@link elementDesigner}
+ */
 function createCollectionContainer() {
   let container = document.createElement("div");
   elementDesigner(
@@ -197,7 +262,13 @@ function createCollectionContainer() {
   return container;
 }
 
-///TODO
+/**
+ * Creates an `HTML` element that serves as the title row of collection
+ * @param  {...string} args The `<span>` values for title row
+ * @returns {HTMLElement} the generated title row element
+ * {@link elementDesigner}
+ */
+
 function createTitleRowOfCollection(...args) {
   const labels = ["Név:", "Témakör:", "Létrehozás:"];
   let tRow = document.createElement("div");
@@ -221,8 +292,16 @@ function createTitleRowOfCollection(...args) {
   return tRow;
 }
 
-
-///TODO
+/**
+ * Creates a `<div>` element that contains three `<button>` elements
+ * Adds handlers to these `<buttons>`
+ * @returns {HTMLElement} created `<div>` element
+ * {@link elementDesigner}
+ * {@link createQuestionWindow}
+ * {@link renameCollection}
+ * {@link addElementToCollection}
+ * {@link setPicture}
+ */
 function createButtonsOfTitleRow() {
   let index = collectionArray.length;
   let containerDiv = document.createElement("div");
@@ -237,7 +316,7 @@ function createButtonsOfTitleRow() {
   elementDesigner(addButton, "btn btn-light");
   elementDesigner(pictureButton, "btn btn-light");
   renameButton.innerHTML = "Átnevez";
-  pictureButton.innerHTML='Kép'
+  pictureButton.innerHTML = "Kép";
   renameButton.addEventListener("click", () =>
     createQuestionWindow("Átnevezés", "input", index, "Átnevezem", () => {
       renameCollection(index);
@@ -249,52 +328,74 @@ function createButtonsOfTitleRow() {
       addElementToCollection(index);
     })
   );
-  pictureButton.addEventListener('click',()=>{
-    createQuestionWindow('Kép linkje','input',index,'Hozzáadom',()=>{setPicture(index)})
-  }
-  )
+  pictureButton.addEventListener("click", () => {
+    createQuestionWindow("Kép linkje", "input", index, "Hozzáadom", () => {
+      setPicture(index);
+    });
+  });
   containerDiv.appendChild(renameButton);
   containerDiv.appendChild(addButton);
-  containerDiv.appendChild(pictureButton)
+  containerDiv.appendChild(pictureButton);
   return containerDiv;
 }
 
+/**
+ * Creates a `<div>` element that contains a picture with the provided `src` attributes
+ * @param {sring} src the `URL` of the `<img>` 
+ * @returns {HTMLElement} the created div
+ */
 
-
-
-function pictureCreator(src){
-const containerDiv= document.createElement('div');
-elementDesigner(containerDiv,'d-flex row align-items-center justify-content-center border-bottom border-secondary py-2')
-const img = document.createElement('img');
-elementDesigner(img,'own-collection-img')
-img.src=src
-img.alt='Hiba a kép megadása során'  
-containerDiv.appendChild(img);
-return containerDiv
-
+function pictureCreator(src) {
+  const containerDiv = document.createElement("div");
+  elementDesigner(
+    containerDiv,
+    "d-flex row align-items-center justify-content-center border-bottom border-secondary py-2"
+  );
+  const img = document.createElement("img");
+  elementDesigner(img, "own-collection-img");
+  img.src = src;
+  img.alt = "Hiba a kép megadása során";
+  containerDiv.appendChild(img);
+  return containerDiv;
 }
 
+/**
+ * This function sends the `src` atribute of the Collection 'class' if that is exist 
+ * otherwise send an `<img>` element with this attribute 
+ * @param {number} collectionIndex the index of current collection
+ * {@link removeQuestionWindow}
+ * {@link showAlert}
+ * {@link showAlert}
+ */
 
-function setPicture(collectionIndex){
-
-  let src=document
-.getElementById("own-question-window-content")
-.getElementsByTagName("input")[0].value;
-console.log(src)
-  if(!collectionArray[collectionIndex].src){
-    collectionArray[collectionIndex].setCollectionPicture(src,pictureCreator(src))
-    removeQuestionWindow()
-    showAlert('A képet sikeresen beállítottad')
-  }else{
-    collectionArray[collectionIndex].setCollectionPicture(src,undefined)
-    removeQuestionWindow()
-    showAlert('A képet sikeresen módosítottad')
+function setPicture(collectionIndex) {
+  let src = document
+    .getElementById("own-question-window-content")
+    .getElementsByTagName("input")[0].value;
+  console.log(src);
+  if (!collectionArray[collectionIndex].src) {
+    collectionArray[collectionIndex].setCollectionPicture(
+      src,
+      pictureCreator(src)
+    );
+    removeQuestionWindow();
+    showAlert("A képet sikeresen beállítottad");
+  } else {
+    collectionArray[collectionIndex].setCollectionPicture(src, undefined);
+    removeQuestionWindow();
+    showAlert("A képet sikeresen módosítottad");
   }
-  
-
 }
 
-///TODO
+/**
+ * Creates an `HTML` element that is represent a collection container
+ * and adds a new collection to the `collectionArray` list
+ * {@link createCollectionContainer}
+ * {@link createTitleRowOfCollection}
+ * {@link createButtonsOfTitleRow}
+ * {@link collectionCreatorDisplayHandler}
+ * {@link showAlert}
+ */
 function createNewCollection() {
   const inputs = getValueOfInputFieldsOfCollectionCreatorSection();
   if (inputs && isUniqueName(inputs[0])) {
@@ -319,7 +420,13 @@ function createNewCollection() {
   }
 }
 
-//TODO
+
+/**
+ * Creates a special `dropdown list`as an `HTML` element 
+ * @returns {HTMLElement} the created `dropdown list`
+ * {@link elementDesigner}
+ */
+
 function createSpecialSelectList() {
   let i = document.createElement("i");
   let img = document.createElement("img");
@@ -335,7 +442,18 @@ function createSpecialSelectList() {
   return i;
 }
 
-///Todo
+/**
+ * Creates the `options` for the special `dropdown list`
+ * and adds the appropriate  `eventListener` to them
+ * @param {string} id the unique id of the current row
+ * @returns {HTMLElement} an `HTML` `<ul>` element
+ * {@link elementDesigner}
+ * {@link createQuestionWindow}
+ * {@link getCollectionByID}
+ * {@link moveElement}
+ * {@link renameCollectionElement}
+ * {@link deleteCollectionElement}
+ */
 function createSpecialSelectListElements(id) {
   const options = ["Áthelyez", "Átnevez", "Töröl"];
 
@@ -388,7 +506,16 @@ function createSpecialSelectListElements(id) {
   return ul;
 }
 
-///Todo
+/**
+ * creates a row that is represent an element of collection.
+ * and adds it to the collection
+ * @param {string} name the content of `HTML` element.
+ * @param {number} collectionIndex the index of current collection.
+ * {@link getNewID}
+ * {@link elementDesigner}
+ * {@link createSpecialSelectList}
+ * {@link createSpecialSelectListElements}
+ */
 function createCollectionElementRow(name, collectionIndex) {
   let eRow = document.createElement("div");
   let id = getNewID();
@@ -408,7 +535,11 @@ function createCollectionElementRow(name, collectionIndex) {
   collectionArray[collectionIndex].addToElements(id, name, eRow);
 }
 
-///Todo
+/**
+ * creates the title section of pop-up element
+ * @param {string} title the title of the pop-up
+ * @returns {HTMLElement} a `<div>` that contains the title 
+ */
 function createQuestionWindowTitle(title) {
   let windowTitle = document.createElement("div");
   windowTitle.innerHTML = title;
@@ -416,7 +547,13 @@ function createQuestionWindowTitle(title) {
   return windowTitle;
 }
 
-///Todo
+/**
+ * Creates the content section of pop-up element
+ * @param {HTMLElement} content a keyword selects the correct conttent type 
+ * @param {number} collectionIndex the index of the current collection
+ * @returns {HTMLElement} the created content section element
+ * {@link createQuestionWindowSelectInput}
+ */
 function createQuestionWindowContent(content, collectionIndex) {
   let windowContantDiv = document.createElement("div");
   windowContantDiv.id = "own-question-window-content";
@@ -434,7 +571,11 @@ function createQuestionWindowContent(content, collectionIndex) {
   return windowContantDiv;
 }
 
-///Todo
+/**
+ * Creates the `<select>` section of the pop-up element
+ * @param {number} collectionIndex the index of the current collection
+ * @returns {HTMLElement} the created `<select>`
+ */
 function createQuestionWindowSelectInput(collectionIndex) {
   let content = document.createElement("select");
   for (let i = 0; i < collectionArray.length; i++) {
@@ -451,7 +592,14 @@ function createQuestionWindowSelectInput(collectionIndex) {
   return content;
 }
 
-///Todo
+/**
+ * Create the interactive section of pop-up element
+ * @param {string} buttonName the content of button 
+ * @param {Function} buttonFunction the function that will be executed when the button is clicked.
+ * @returns {HTMLElement} a `<div>` that is contains the action buttons.
+ * {@link elementDesigner}
+ * {@link removeQuestionWindow}
+ */
 function createQuestionWindowActionPart(buttonName, buttonFunction) {
   let actionContainer = document.createElement("div");
   actionContainer.id = "own-question-window-action";
@@ -471,27 +619,49 @@ function createQuestionWindowActionPart(buttonName, buttonFunction) {
   actionContainer.appendChild(backButton);
   return actionContainer;
 }
-///Todo
+/**
+ * Adds a blurred `<div>` to the body with maximum width and height
+ */
 function bluredBackground() {
   let blur = document.createElement("div");
   blur.id = "own-blur-box";
   document.body.append(blur);
 }
-///Todo
+/**
+ * Creates the container section of pop-up element
+ * @returns {HTMLElement} a `<div>` with the appropriate style
+ */
 function createQuestionWindowContainer() {
   let widowContainerDiv = document.createElement("div");
   widowContainerDiv.id = "own-question-window-box";
   return widowContainerDiv;
 }
-///Todo
+
+/**
+ * Removes the pop-up element from the body
+ */
+
 function removeQuestionWindow() {
   let blurBox = document.getElementById("own-blur-box");
   let questionWindow = document.getElementById("own-question-window-box");
   document.body.removeChild(blurBox);
   document.body.removeChild(questionWindow);
-  questionWindowPermission=true;
+  questionWindowPermission = true;
 }
-///Todo
+
+/**
+ * Creates a pop-up element
+ * and adds to body
+ * @param {string} title the title of pop-up element
+ * @param {string} inputType the keyword that select the correct input type
+ * @param {number} collectionIndex the index of current collection
+ * @param {string} buttonName the content of `<button>` element
+ * @param {Function} func the function that will be executed when the button is clicked
+ * {@link createQuestionWindowContainer}
+ * {@link createQuestionWindowTitle}
+ * {@link createQuestionWindowContent}
+ * {@link createQuestionWindowActionPart}
+ */
 function createQuestionWindow(
   title,
   inputType,
@@ -499,27 +669,33 @@ function createQuestionWindow(
   buttonName,
   func
 ) {
-  if(questionWindowPermission){
-    questionWindowPermission=false;
-  bluredBackground();
-  let container = createQuestionWindowContainer();
-  container.appendChild(createQuestionWindowTitle(title));
-  container.appendChild(
-    createQuestionWindowContent(inputType, collectionIndex)
-  );
-  container.appendChild(createQuestionWindowActionPart(buttonName, func));
-  document.body.appendChild(container);}
+  if (questionWindowPermission) {
+    questionWindowPermission = false;
+    bluredBackground();
+    let container = createQuestionWindowContainer();
+    container.appendChild(createQuestionWindowTitle(title));
+    container.appendChild(
+      createQuestionWindowContent(inputType, collectionIndex)
+    );
+    container.appendChild(createQuestionWindowActionPart(buttonName, func));
+    document.body.appendChild(container);
+  }
 }
 
-///TODO
-function renameCollection(index) {
-  if (index < collectionArray.length) {
+/**
+ * Renames the current collection
+ * @param {number} collectionIndex the index of the 
+ * {@link removeQuestionWindow}
+ * {@link showAlert}
+ */
+function renameCollection(collectionIndex) {
+  if (collectionIndex < collectionArray.length) {
     let name = document
       .getElementById("own-question-window-content")
       .getElementsByTagName("input")[0].value;
 
     if (name && isUniqueName(name)) {
-      collectionArray[index].renameCollection(name);
+      collectionArray[collectionIndex].renameCollection(name);
       removeQuestionWindow();
       showAlert("Sikeresen átnevezte a gyüjteményt", false);
     } else {
@@ -531,6 +707,14 @@ function renameCollection(index) {
     }
   }
 }
+
+/**
+ * Adds a new element to the current collection
+ * @param {number} collectionIndex the index off current collection 
+ * {@link createCollectionElementRow}
+ * {@link removeQuestionWindow}
+ * {@link showAlert}
+ */
 
 function addElementToCollection(collectionIndex) {
   if (collectionIndex < collectionArray.length) {
@@ -552,6 +736,14 @@ function addElementToCollection(collectionIndex) {
     }
   }
 }
+
+/**
+ * Renames an element of the current collection
+ * @param {number} collectionIndex the index of current collection 
+ * @param {string} id the id of the selected element 
+ * {@link showAlert}
+ * {@link removeQuestionWindow}
+ */
 
 function renameCollectionElement(collectionIndex, id) {
   if (collectionIndex < collectionArray.length) {
@@ -582,6 +774,14 @@ function renameCollectionElement(collectionIndex, id) {
   }
 }
 
+/**
+ * Delete the selected element from the current collection
+ * @param {number} collectionIndex the index of the current collection 
+ * @param {string} id the id of the selected element 
+ * {@link removeQuestionWindow}
+ * {@link showAlert}
+ */
+
 function deleteCollectionElement(collectionIndex, id) {
   if (collectionIndex < collectionArray.length) {
     collectionArray[collectionIndex].deleteElement(id);
@@ -593,6 +793,12 @@ function deleteCollectionElement(collectionIndex, id) {
   }
 }
 
+/**
+ * Returns the index of the collection that is contains the searched name
+ * @param {string} name the searched name
+ * @returns {number} the index of the collection with the searched name
+ */
+
 function getCollectionByName(name) {
   for (let i = 0; i < collectionArray.length; i++) {
     if (name === collectionArray[i].name) {
@@ -602,6 +808,12 @@ function getCollectionByName(name) {
   return null;
 }
 
+/**
+ * Returns the index of the collection that contains the element id
+ * @param {string} id the id of the selected element
+ * @returns {number} the index of the collection
+ */
+
 function getCollectionByID(id) {
   for (let i = 0; i < collectionArray.length; i++) {
     if (collectionArray[i].getKeys().includes(id)) {
@@ -609,6 +821,13 @@ function getCollectionByID(id) {
     }
   }
 }
+
+
+/**
+ * Moves the selected element from the current collection to the selected collection
+ * @param {number} collectionIndex the index of the current collection 
+ * @param {string} id the id of the selected element
+ */
 
 function moveElement(collectionIndex, id) {
   if (collectionArray.length <= 1) {
@@ -629,6 +848,14 @@ function moveElement(collectionIndex, id) {
   showAlert("Sikeresen áthelyezted az elemet", false);
 }
 
+/**
+ * Creates a alert box with the given content
+ * @param {string} content the conent of alert box
+ * @param {boolean} error if `true` the alert box will be success message,
+ * otherwise will be danger message  
+ * @returns {HTMLElement} the alert box
+ */
+
 function createAlert(content, error) {
   let alert = document.createElement("div");
   alert.innerHTML = content;
@@ -637,16 +864,20 @@ function createAlert(content, error) {
   return alert;
 }
 
+
+/**
+ * display the alert on the screen and then removes it
+ * @param {string} content the conent of alert box
+ * @param {boolean} error if `true` the alert box will be success message,
+ */
 function showAlert(content, error) {
-  if(alertDisplayPermission){
-  const alert = createAlert(content, error);
-  document.body.appendChild(alert);
-  alertDisplayPermission=false;
-  setTimeout(() => {
-    document.body.removeChild(alert);
-    alertDisplayPermission=true
-  }, 2000);
+  if (alertDisplayPermission) {
+    const alert = createAlert(content, error);
+    document.body.appendChild(alert);
+    alertDisplayPermission = false;
+    setTimeout(() => {
+      document.body.removeChild(alert);
+      alertDisplayPermission = true;
+    }, 2000);
+  }
 }
-}
-
-
