@@ -834,9 +834,10 @@ function moveElement(collectionIndex, id) {
     removeQuestionWindow();
     showAlert("Nincs hova áthelyezni az elemet", true);
   }
-  const obj = collectionArray[collectionIndex].deleteToMove(id);
+  const obj = collectionArray[collectionIndex].getElementFromElementsById(id);
   console.log('html')
-  console.log(obj.HTML_Element)
+  console.log(obj.HTML_Element) 
+
   const name = obj.name;
   const placeName = document.getElementById("own-question-window-select").value;
   console.log(name)
