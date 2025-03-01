@@ -834,18 +834,26 @@ function moveElement(collectionIndex, id) {
     removeQuestionWindow();
     showAlert("Nincs hova áthelyezni az elemet", true);
   }
-  const place = document.getElementById("own-question-window-select").value;
-  const HTML_Element = collectionArray[collectionIndex].deleteToMove(id);
+  const obj = collectionArray[collectionIndex].deleteToMove(id);
+  console.log('html')
+  console.log(obj.HTML_Element)
+  const name = obj.name;
+  const placeName = document.getElementById("own-question-window-select").value;
+  console.log(name)
+  if(!collectionArray[getCollectionByName(placeName)].getNames().includes(name)){
   collectionArray[collectionIndex].deleteElement(id);
-  console.log(HTML_Element);
-  const name = HTML_Element.getElementsByTagName("div")[0].value;
-  collectionArray[getCollectionByName(place)].addToElements(
+  collectionArray[getCollectionByName(placeName)].addToElements(
     id,
     name,
-    HTML_Element
+    obj.HTML_Element
   );
   removeQuestionWindow();
   showAlert("Sikeresen áthelyezted az elemet", false);
+}
+  else{
+    //removeQuestionWindow()
+    showAlert('Ez a név már foglalt a másik gyűjteményben',true)
+  }
 }
 
 /**

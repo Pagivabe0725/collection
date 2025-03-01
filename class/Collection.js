@@ -65,7 +65,7 @@ export class Collection {
 
   deleteToMove(id) {
     let index = this.getKeys().indexOf(id);
-    return this.Elements[index][id].HTML_Element;
+    return this.Elements[index][id];
   }
 
   renameCollection(newName) {
@@ -85,7 +85,6 @@ export class Collection {
       this.src=src
       console.log(HTML_Element)
     if (HTML_Element) {
-      
       this.html
         .getElementsByTagName("div")[0]
         .after(HTML_Element);
