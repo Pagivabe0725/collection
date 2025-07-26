@@ -72,3 +72,82 @@ A gyüjtemények **átnevezése** a legenerált gyűjtemény címsorában szerep
 ### 5. feladat
 
 A kép hozzáadása funkció szintén a gyűjtemény címsorában szereplő **Kép** gomb segítségével érhető el. Itt szintén megjelenik a *felugró ablak* és egy képnek a **linkjét** várja a felhasználótó. Amennyiben még nem volt kép rendelve az adott gyűjteményhez, a program készít egy új sort, ami tartalmazza az adott képet és beszúrja a címsor mögé. Abban az esetben, ha a gyűjtemény már tartalmazott képet, akkor csak simán megváltoztatja azt
+
+
+# Collection
+
+The application allows you to create collections, add items to them, delete items, and move items between collections.
+
+## Created by  
+[@Pagivabe0725](https://github.com/Pagivabe0725)
+
+## Running the application
+
+### To use the imports, you need a live-server or an http-server, for example.
+
+#### - Installation:
+
+```sh
+npm install -g live-server
+```
+
+#### - Running:
+
+```sh
+live-server
+```
+
+### Or
+
+#### - Installation:
+
+```sh
+npm install -g http-server
+```
+
+#### - Running:
+
+```sh
+http-server
+```
+
+## Tasks
+
+### Task 1
+
+The HTML contains a button labeled "**Create New Collection**" which, when clicked, displays the required input fields. At this point, the button text changes to "**Cancel**." Clicking the button again hides the input fields and the button text returns to its original state. The values in the fields are cleared every time the input fields are hidden.
+
+The input fields cannot be left empty, and duplicate collection names are not allowed. If the user tries to create a collection with a name that already exists, the system will notify them of the error.
+
+When the **Create** button is clicked with valid inputs, the requested collection is generated and the input fields are hidden.
+
+Renaming collections is done using the **Rename** button in the header of the generated collection. The same rule applies here — you cannot rename a collection to a name that already exists.
+
+### Task 2
+
+You can add new items to existing collections using the **Add** button located in the collection header. The same naming rule applies here — item names must be unique within the collection.
+
+The program provides feedback to the user whether the addition was successful or if an error occurred.
+
+### Task 3
+
+Each *item* in the collection is displayed as a row below the header. On the right side of the row, the **name** of the item is shown, and on the left side, there is the requested **icon and list**.
+
+Clicking the icon opens a **menu with 3 options:**
+- Move
+- Rename
+- Delete
+
+### Task 4
+
+If you select the **Move** option, a *popup window* appears containing a list of collection names. (Of course, the collection you want to move the item from will not appear in the list of options.) *You cannot move an item to a collection that already contains an item with the same name.* If you have only one collection and try to move an item, the popup will still appear but there will be no options to choose from. In this case, clicking the **Move** button will notify the user of the error.
+
+If you select the **Rename** option, the *popup window* will contain an input field asking the user for a new name for the item. If the new name is not taken, it will be changed accordingly. (Note that the program treats uppercase and lowercase letters as different, but it removes leading and trailing spaces from the input.)
+
+If you select the **Delete** option, the *popup window* will ask for confirmation to delete the selected item. If confirmed, the item's name will be released (available again).
+
+In all cases, the success or failure of the operation will be communicated to the user.
+
+### Task 5
+
+The **Add Image** feature is accessible via the **Image** button in the collection header. This also opens a *popup window* where the user can enter a **link to an image**. If the collection did not have an image before, the program will create a new row containing the image and insert it right after the header. If there was already an image in the collection, it will simply be replaced with the new one.
